@@ -1,8 +1,14 @@
 #include <iostream>
 
-#include "../include/listGraph.h"
+#include "listGraph.h"
 
-void ListGraph::create(int node,std::vector<int> from, std::vector<int> to) {
+ListGraph::ListGraph(int nodes, float saturation) {
+    _nodes = nodes;
+    _list.resize(_nodes);
+    
+}
+
+ListGraph::ListGraph(int node,std::vector<int> from, std::vector<int> to) {
     _nodes = node;
     _list.resize(_nodes);
     for (int i = 0; i < from.size(); i++) {

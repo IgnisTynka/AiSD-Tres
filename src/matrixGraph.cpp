@@ -1,10 +1,40 @@
 #include <iostream>
+#include <random>
+#include <cstdlib>
 
-#include "../include/matrixGraph.h"
+#include "matrixGraph.h"
 
-void MatrixGraph::create(int nodes, std::vector<int> from, std::vector<int> to) {
+MatrixGraph::MatrixGraph(int nodes, float saturation) {
     _nodes = nodes;
-    _matrix.resize(_nodes * _nodes);
+    _matrix = std::vector<bool>(_nodes * _nodes, false);
+    
+    for (int i = 0; i < _nodes-1; i++) {
+        int j = i + 1;
+        int edge = rand() % (_nodes - j) + j;
+        _matrix[i * _nodes + edge] = true;
+        if (saturation == 0.f) {
+            continue;
+        }
+        for (int k = j; k < edge; k++) {
+            int p = (float)rand() / RAND_MAX;
+            if (p <= saturation) {
+                _matrix[i * _nodes + k] = true;
+            }
+        }
+    }
+
+    std::vector<int> shuffledNodes(_nodes);
+    for (int i = 0; i < _nodes; i++) {
+        shuffledNodes[i] = i;
+    }
+
+    // std::shuffle(shuffledNodes.begin(), shuffledNodes.end(), std::default_random_engine());
+
+}
+
+MatrixGraph::MatrixGraph(int nodes, std::vector<int> from, std::vector<int> to) {
+    _nodes = nodes;
+    _matrix = std::vector<bool>(_nodes * _nodes, false);
     for (int i = 0; i < from.size(); i++) {
         _matrix[(from[i]-1) * _nodes + (to[i]-1)] = true;
     }

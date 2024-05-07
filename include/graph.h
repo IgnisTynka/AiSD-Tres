@@ -7,8 +7,6 @@ public:
     Graph(){}
     ~Graph(){}
 
-    virtual void create(int nodes, std::vector<int> from, std::vector<int> to) = 0;
-
     virtual void print() = 0;
 
     virtual bool findEdge(int from, int to) = 0;

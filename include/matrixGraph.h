@@ -1,15 +1,12 @@
 #pragma once
 
-#include <vector>
-
 #include "graph.h"
 
 class MatrixGraph : public Graph{
 public:
-    MatrixGraph();
-    MatrixGraph(int nodes, std::vector<int> from, std::vector<int> to) { create(nodes, from, to); }
+    MatrixGraph(int nodes, float saturation);
+    MatrixGraph(int nodes, std::vector<int> from, std::vector<int> to);
     ~MatrixGraph();
-    virtual void create(int nodes,std::vector<int> from, std::vector<int> to) override;
 
     virtual void print() override;
 

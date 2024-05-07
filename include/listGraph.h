@@ -1,16 +1,12 @@
 #pragma once
 
-#include <vector>
-
 #include "graph.h"
 
 class ListGraph : public Graph {
 public:
-    ListGraph();
-    ListGraph(int nodes, std::vector<int> from, std::vector<int> to) { create(nodes, from, to); }
+    ListGraph(int nodes, float saturation);
+    ListGraph(int nodes, std::vector<int> from, std::vector<int> to);
     ~ListGraph();
-    
-    virtual void create(int nodes, std::vector<int> from, std::vector<int> to) override;
 
     virtual void print() override;
 

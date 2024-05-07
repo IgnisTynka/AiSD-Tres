@@ -1,8 +1,13 @@
 #include <iostream>
 
-#include "../include/tableGraph.h"
+#include "tableGraph.h"
 
-void TableGraph::create(int nodes, std::vector<int> from, std::vector<int> to) {
+TableGraph::TableGraph(int nodes, float saturation) {
+    _nodes = nodes;
+    _table.resize(_nodes);
+}
+
+TableGraph::TableGraph(int nodes, std::vector<int> from, std::vector<int> to) {
     _nodes = nodes;
     Edge temp;
     for (int i = 0; i < from.size(); i++) {
