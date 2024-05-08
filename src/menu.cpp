@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 #include "functions.h"
 #include "graph.h"
@@ -29,13 +30,35 @@ void menu(Graph* graph) {
         else if (option == "find") {
             int from, to;
 
-            std::cout << "from> ";
-            std::cin >> from;
-            std::cout << from << std::endl;
+            while (true) {
+                std::cout << "from> ";
+                std::string nodesStr;
+                std::getline(std::cin, nodesStr);
+                std::cout << nodesStr << std::endl;
 
-            std::cout << "to> ";
-            std::cin >> to;
-            std::cout << to << std::endl;
+                from = std::atoi(nodesStr.c_str());
+
+                if (from > 0) {
+                    break;
+                }
+                
+                std::cout << "Invalid node number (>0)" << std::endl;
+            }
+
+            while (true) {
+                std::cout << "to> ";
+                std::string nodesStr;
+                std::getline(std::cin, nodesStr);
+                std::cout << nodesStr << std::endl;
+
+                to = std::atoi(nodesStr.c_str()); 
+
+                if (to > 0) {
+                    break;
+                }
+                
+                std::cout << "Invalid node number (>0)" << std::endl;
+            }
             
             if (graph->findEdge(from, to)) {
                 std::cout << "Edge ("<<from <<", "<< to <<") exists" << std::endl;

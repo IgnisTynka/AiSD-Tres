@@ -18,8 +18,7 @@ Graph* userBuild() {
         std::cout << "nodes> ";
         std::string nodesStr;
         std::getline(std::cin, nodesStr);
-
-        // Convert the string to an integer
+        
         nodes = std::atoi(nodesStr.c_str());
         std::cout << nodes << std::endl;
         

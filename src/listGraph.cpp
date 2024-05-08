@@ -44,11 +44,14 @@ void ListGraph::print() {
 }
 
 bool ListGraph::findEdge(int from, int to) {
-    for (int node : _list[from-1]) {
-        if (node == to-1) {
-            return true;
+    if (from < _nodes && to < _nodes) {
+        for (int node : _list[from-1]) {
+            if (node == to-1) {
+                return true;
+            }
         }
     }
+
     return false;
 }
 
@@ -81,8 +84,17 @@ std::vector<int> ListGraph::dfs() {
 }
 
 std::vector<int> ListGraph::kahn() {
+    std::vector<int> kahn;
+    std::queue<int> queue;
+    std::vector<int> inDegree(_nodes, 0);
 
+    for (int i = 0; i < _nodes; i++) {
+        for (int node : _list[i]) {
+            inDegree[node]++;
+        }
+    }
 }
+
 std::vector<int> ListGraph::tarjan() {
 
 }
