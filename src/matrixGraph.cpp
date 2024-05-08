@@ -23,10 +23,10 @@ MatrixGraph::MatrixGraph(int nodes, float saturation) {
         }
     }
 
-    std::vector<int> shuffledNodes(_nodes);
-    for (int i = 0; i < _nodes; i++) {
-        shuffledNodes[i] = i;
-    }
+    // std::vector<int> shuffledNodes(_nodes);
+    // for (int i = 0; i < _nodes; i++) {
+    //     shuffledNodes[i] = i;
+    // }
 
     // std::shuffle(shuffledNodes.begin(), shuffledNodes.end(), std::default_random_engine());
 

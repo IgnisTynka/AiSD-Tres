@@ -9,7 +9,6 @@ int main(int argc, const char* argv[]){
 
     if (mode == "--generate") {
         graph = generate();
-        graph->print();
     } else if (mode == "--user-provided") {  
         // graph = userBuild();
     } else {
@@ -17,7 +16,7 @@ int main(int argc, const char* argv[]){
         return 1;
     }
 
-    // menu(graph);
+    menu(graph);
 
     return 0;
 }

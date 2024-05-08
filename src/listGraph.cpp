@@ -5,6 +5,22 @@
 ListGraph::ListGraph(int nodes, float saturation) {
     _nodes = nodes;
     _list.resize(_nodes);
+
+    for (int i = 0; i < _nodes-1; i++) {
+        int j = i + 1;
+        int edge = rand() % (_nodes - j) + j;
+        _list[i].push_back(edge);
+        if (saturation == 0.f) {
+            continue;
+        }
+        for (int k = j; k < edge; k++) {
+            int p = (float)rand() / RAND_MAX;
+            if (p <= saturation) {
+                _list[i].push_back(k);
+            }
+        }
+
+    }
     
 }
 
