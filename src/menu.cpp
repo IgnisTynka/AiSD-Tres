@@ -15,7 +15,7 @@ void menu(Graph* graph) {
             std::cout << "Commands:" << std::endl;
             std::cout << "help \t\t Show this message" << std::endl;
             std::cout << "print \t\t Print the graph" << std::endl;
-            std::cout << "find \t Check if the edge exist in graph" << std::endl;
+            std::cout << "find \t\t Check if the edge exist in graph" << std::endl;
             std::cout << "bfs \t\t Breadth-first search" << std::endl;
             std::cout << "dfs \t\t Depth-first search" << std::endl;
             std::cout << "sort \t\t Sort the graph using Kahn and Tarjan algorithm" << std::endl;
@@ -60,6 +60,23 @@ void menu(Graph* graph) {
                 std::cout << dfs[i] << " ";
             }
             std::cout << std::endl;            
+        }
+
+        else if (option == "sort") {
+            std::vector<int> kahn = graph->kahn();
+            std::vector<int> tarjan = graph->tarjan();
+
+            std::cout << "Kahn algorithm: ";
+            for (int i = 0; i < kahn.size(); i++) {
+                std::cout << kahn[i] << " ";
+            }
+            std::cout << std::endl;
+
+            std::cout << "Tarjan algorithm: ";
+            for (int i = 0; i < tarjan.size(); i++) {
+                std::cout << tarjan[i] << " ";
+            }
+            std::cout << std::endl;
         }
 
         else if (option == "exit") {

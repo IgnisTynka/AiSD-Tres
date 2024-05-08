@@ -20,11 +20,12 @@ Graph* userBuild() {
 
         // Convert the string to an integer
         nodes = std::atoi(nodesStr.c_str());
-
+        std::cout << nodes << std::endl;
+        
         if (nodes > 0) {
             break;
         }
-        std::cout << "\nInvalid number of nodes (>0)" << std::endl;
+        std::cout << "Invalid number of nodes (>0)" << std::endl;
     }
 
     std::string sequence;
