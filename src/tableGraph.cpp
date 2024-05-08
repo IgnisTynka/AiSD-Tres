@@ -27,12 +27,14 @@ TableGraph::TableGraph(int nodes, float saturation) {
 
 }
 
-TableGraph::TableGraph(int nodes, std::vector<int> from, std::vector<int> to) {
+TableGraph::TableGraph(int nodes, std::vector<std::vector<int>> list) {
     _nodes = nodes;
     Edge temp;
-    for (int i = 0; i < from.size(); i++) {
-        temp.from= from[i];
-        temp.to = to[i];
+    for (int i = 0; i < _nodes; i++) {
+        for (int j = 0; j < list[i].size(); j++){
+            temp.from = i + 1;
+            temp.to = list[i][j];
+        }
         _table.push_back(temp);
     }
 }

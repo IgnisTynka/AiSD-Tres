@@ -10,7 +10,7 @@ int main(int argc, const char* argv[]){
     if (mode == "--generate") {
         graph = generate();
     } else if (mode == "--user-provided") {  
-        // graph = userBuild();
+        graph = userBuild();
     } else {
         std::cout << "Invalid mode" << std::endl;
         return 1;

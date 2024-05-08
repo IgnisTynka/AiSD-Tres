@@ -32,11 +32,13 @@ MatrixGraph::MatrixGraph(int nodes, float saturation) {
 
 }
 
-MatrixGraph::MatrixGraph(int nodes, std::vector<int> from, std::vector<int> to) {
+MatrixGraph::MatrixGraph(int nodes, std::vector<std::vector<int>> list) {
     _nodes = nodes;
     _matrix = std::vector<bool>(_nodes * _nodes, false);
-    for (int i = 0; i < from.size(); i++) {
-        _matrix[(from[i]-1) * _nodes + (to[i]-1)] = true;
+    for (int i = 0; i < _nodes; i++) {
+        for (int j = 0; j < list[i].size(); j++) {
+            _matrix[i * _nodes + (list[i][j]-1)] = true;
+        }
     }
 }
 

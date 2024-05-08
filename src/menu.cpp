@@ -28,10 +28,15 @@ void menu(Graph* graph) {
 
         else if (option == "find") {
             int from, to;
+
             std::cout << "from> ";
             std::cin >> from;
+            std::cout << from << std::endl;
+
             std::cout << "to> ";
             std::cin >> to;
+            std::cout << to << std::endl;
+            
             if (graph->findEdge(from, to)) {
                 std::cout << "Edge ("<<from <<", "<< to <<") exists" << std::endl;
             } else {

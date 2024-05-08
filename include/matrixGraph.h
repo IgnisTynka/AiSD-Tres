@@ -5,7 +5,7 @@
 class MatrixGraph : public Graph{
 public:
     MatrixGraph(int nodes, float saturation);
-    MatrixGraph(int nodes, std::vector<int> from, std::vector<int> to);
+    MatrixGraph(int nodes, std::vector<std::vector<int>> list);
     ~MatrixGraph();
 
     virtual void print() override;
