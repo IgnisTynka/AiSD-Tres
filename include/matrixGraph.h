@@ -1,11 +1,14 @@
 #pragma once
 
+#include <queue>
+#include <stack>
+
 #include "graph.h"
 
 class MatrixGraph : public Graph{
 public:
     MatrixGraph(int nodes, float saturation);
-    MatrixGraph(int nodes, std::vector<std::vector<int>> list);
+    MatrixGraph(int nodes, std::vector<std::set<int>> list);
     ~MatrixGraph();
 
     virtual void print() override;
@@ -21,4 +24,8 @@ public:
 protected:
     int _nodes;
     std::vector<bool> _matrix;
+
+private:
+    void _bfs(std::vector<bool> &visited, std::queue<int> &queue, std::vector<int> &bfs, int startNode);
+    void _dfs(std::vector<bool> &visited, std::stack<int> &stack, std::vector<int> &dfs, int startNode);
 };

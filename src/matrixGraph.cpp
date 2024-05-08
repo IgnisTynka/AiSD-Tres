@@ -7,7 +7,7 @@
 MatrixGraph::MatrixGraph(int nodes, float saturation) {
     _nodes = nodes;
     _matrix = std::vector<bool>(_nodes * _nodes, false);
-    
+
     for (int i = 0; i < _nodes-1; i++) {
         int j = i + 1;
         int edge = rand() % (_nodes - j) + j;
@@ -22,22 +22,14 @@ MatrixGraph::MatrixGraph(int nodes, float saturation) {
             }
         }
     }
-
-    // std::vector<int> shuffledNodes(_nodes);
-    // for (int i = 0; i < _nodes; i++) {
-    //     shuffledNodes[i] = i;
-    // }
-
-    // std::shuffle(shuffledNodes.begin(), shuffledNodes.end(), std::default_random_engine());
-
 }
 
-MatrixGraph::MatrixGraph(int nodes, std::vector<std::vector<int>> list) {
+MatrixGraph::MatrixGraph(int nodes, std::vector<std::set<int>> list) {
     _nodes = nodes;
     _matrix = std::vector<bool>(_nodes * _nodes, false);
     for (int i = 0; i < _nodes; i++) {
-        for (int j = 0; j < list[i].size(); j++) {
-            _matrix[i * _nodes + (list[i][j]-1)] = true;
+        for (int node : list[i]){ 
+            _matrix[i * _nodes + (node-1)] = true;
         }
     }
 }
@@ -56,10 +48,31 @@ bool MatrixGraph::findEdge(int from, int to) {
 }
 
 std::vector<int> MatrixGraph::bfs() {
+    std::vector<bool> visited(_nodes, false);
+    std::queue<int> queue;
+    std::vector<int> bfs;
     
+    for (int i = 0; i < _nodes; i++) {
+        if(!visited[i]) {
+            _bfs(visited, queue, bfs, i);
+        }
+    }
+
+    return bfs;
 }
+
 std::vector<int> MatrixGraph::dfs() {
+    std::vector<bool> visited(_nodes, false);
+    std::stack<int> stack;
+    std::vector<int> dfs;
     
+    for (int i = 0; i < _nodes; i++) {
+        if(!visited[i]) {
+            _dfs(visited, stack, dfs, i);
+        }
+    }
+
+    return dfs;
 }
 
 std::vector<int> MatrixGraph::kahn() {
@@ -67,4 +80,41 @@ std::vector<int> MatrixGraph::kahn() {
 }
 std::vector<int> MatrixGraph::tarjan() {
     
+}
+
+void MatrixGraph::_bfs(std::vector<bool>& visited, std::queue<int>& queue, std::vector<int>& bfs, int startNode) {
+    visited[startNode] = true;
+    queue.push(startNode);
+
+    while (!queue.empty()) {
+        int curr = queue.front();
+        queue.pop();
+        bfs.push_back(curr + 1);
+
+        for (int i = 0; i < _nodes; i++) {
+            if (_matrix[curr * _nodes + i] && !visited[i]) {
+                visited[i] = true;
+                queue.push(i);
+            }
+        }
+    }
+    
+}
+
+void MatrixGraph::_dfs(std::vector<bool>& visited, std::stack<int>& stack, std::vector<int>& dfs, int startNode) {
+    visited[startNode] = true;
+    stack.push(startNode);
+
+    while(!stack.empty()) {
+        int curr = stack.top();
+        stack.pop();
+        dfs.push_back(curr + 1);
+
+        for (int i = _nodes; i > 0; i--) {
+            if (_matrix[curr * _nodes + i] && !visited[i]) {
+                visited[i] = true;
+                stack.push(i);
+            }
+        }
+    }
 }
