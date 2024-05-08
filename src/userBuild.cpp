@@ -1,7 +1,8 @@
 #include <iostream>
+#include <set>
 #include <vector>
 #include <sstream>
-#include <cstdlib> // for std::atoi
+#include <cstdlib> 
 
 #include "functions.h"
 #include "tableGraph.h"
@@ -11,7 +12,7 @@
 Graph* userBuild() {
     std::string type;
     int nodes;
-    std::vector<std::vector<int>> list;
+    std::vector<std::set<int>> list;
 
     while (true) {
         std::cout << "nodes> ";
@@ -22,7 +23,7 @@ Graph* userBuild() {
         nodes = std::atoi(nodesStr.c_str());
         std::cout << nodes << std::endl;
         
-        if (nodes > 0) {
+        if (nodes > 0)  {
             break;
         }
         std::cout << "Invalid number of nodes (>0)" << std::endl;
@@ -34,10 +35,14 @@ Graph* userBuild() {
         std::getline(std::cin, sequence);
         std::istringstream iss(sequence);
 
-        std::vector<int> numbers;
+        std::set<int> numbers;
         int num;
         while (iss >> num) {
-            numbers.push_back(num);
+            if (num <= 0 || num > nodes) {
+                std::cout << "Invalid node number " << num << " Skipped" << std::endl;
+                continue;
+            }
+            numbers.insert(num);
             std::cout << num << " ";
         } 
     
