@@ -9,15 +9,14 @@ int main(int argc, const char* argv[]){
 
     if (mode == "--generate") {
         graph = generate();
-        graph->print();
     } else if (mode == "--user-provided") {  
-        // graph = userBuild();
+        graph = userBuild();
     } else {
         std::cout << "Invalid mode" << std::endl;
         return 1;
     }
 
-    // menu(graph);
+    menu(graph);
 
     return 0;
 }

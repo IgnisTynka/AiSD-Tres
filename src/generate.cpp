@@ -13,24 +13,30 @@ Graph* generate() {
     while (true) {
         std::cout << "nodes> ";
         std::cin >> nodes;
+        std::cout << nodes << std::endl;
+
         if (nodes > 0) {
             break;
         }
-        std::cout << "\nInvalid number of nodes (>0)" << std::endl;
+        std::cout << "Invalid number of nodes (>0)" << std::endl;
     }
 
     while (true) {
         std::cout << "saturation> ";
         std::cin >> saturation;
+        std::cout << saturation << std::endl;
+
         if (saturation >= 0 && saturation <= 1) {
             break;
         }
-        std::cout << "\nInvalid saturation (<0,1>)" << std::endl;
+        std::cout << "Invalid saturation (<0,1>)" << std::endl;
     }
 
     while (true) {
         std::cout << "type> ";
         std::cin >> type;
+        std::cout << type << std::endl;
+
         if (type == "matrix") {
             return new MatrixGraph(nodes, saturation);
         }
@@ -40,7 +46,7 @@ Graph* generate() {
         if (type == "table") {
             return new TableGraph(nodes, saturation);
         }
-        std::cout << "\nInvalid type (matrix, list, table)" << std::endl;
+        std::cout << "Invalid type (matrix, list, table)" << std::endl;
     }
     
 }

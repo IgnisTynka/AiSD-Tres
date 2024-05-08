@@ -5,7 +5,7 @@
 class ListGraph : public Graph {
 public:
     ListGraph(int nodes, float saturation);
-    ListGraph(int nodes, std::vector<int> from, std::vector<int> to);
+    ListGraph(int nodes, std::vector<std::vector<int>> list);
     ~ListGraph();
 
     virtual void print() override;

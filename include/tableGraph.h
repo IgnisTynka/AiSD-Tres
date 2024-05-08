@@ -5,7 +5,7 @@
 class TableGraph : public Graph{
 public:
     TableGraph(int nodes, float saturation);
-    TableGraph(int nodes, std::vector<int> from, std::vector<int> to); 
+    TableGraph(int nodes, std::vector<std::vector<int>> list); 
     ~TableGraph();
 
     virtual void print() override;

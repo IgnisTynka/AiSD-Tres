@@ -5,14 +5,35 @@
 ListGraph::ListGraph(int nodes, float saturation) {
     _nodes = nodes;
     _list.resize(_nodes);
+
+    for (int i = 0; i < _nodes-1; i++) {
+        int j = i + 1;
+        int edge = rand() % (_nodes - j) + j;
+        _list[i].push_back(edge);
+        if (saturation == 0.f) {
+            continue;
+        }
+        for (int k = j; k < edge; k++) {
+            int p = (float)rand() / RAND_MAX;
+            if (p <= saturation) {
+                _list[i].push_back(k);
+            }
+        }
+
+    }
     
 }
 
-ListGraph::ListGraph(int node,std::vector<int> from, std::vector<int> to) {
+ListGraph::ListGraph(int node, std::vector<std::vector<int>> list) {
     _nodes = node;
     _list.resize(_nodes);
-    for (int i = 0; i < from.size(); i++) {
-        _list[from[i]-1].push_back(to[i]-1);
+    std::vector<int> nodes;
+    for (int i = 0; i < _nodes; i++) {
+        nodes.resize(list[i].size());
+        for (int j = 0; j < list[i].size(); j++){
+            nodes[j] = list[i][j] - 1;
+        }
+        _list[i] = nodes;
     }
 }
 
@@ -20,7 +41,7 @@ void ListGraph::print() {
     for (int i = 0; i < _nodes; i++) {
         std::cout << i+1 << " -> ";
         for (int j = 0; j < _list[i].size(); j++) {
-            std::cout << _list[i][j]+1 << " ";
+            std::cout << _list[i][j] + 1 << " ";
         }
         std::cout << std::endl;
     }
