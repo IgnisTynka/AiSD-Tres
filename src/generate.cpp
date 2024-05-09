@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 #include "functions.h"
 #include "tableGraph.h"
@@ -12,10 +13,13 @@ Graph* generate() {
     
     while (true) {
         std::cout << "nodes> ";
-        std::cin >> nodes;
-        std::cout << nodes << std::endl;
-
-        if (nodes > 0) {
+        std::string nodesStr;
+        std::getline(std::cin, nodesStr);
+        
+        std::cout << nodesStr << std::endl;
+        nodes = std::atoi(nodesStr.c_str());
+        
+        if (nodes > 0)  {
             break;
         }
         std::cout << "Invalid number of nodes (>0)" << std::endl;
@@ -23,13 +27,16 @@ Graph* generate() {
 
     while (true) {
         std::cout << "saturation> ";
-        std::cin >> saturation;
-        std::cout << saturation << std::endl;
+        std::string saturationStr;
+        std::getline(std::cin, saturationStr);
 
-        if (saturation >= 0 && saturation <= 1) {
+        std::cout << saturationStr << std::endl;
+        saturation = std::atof(saturationStr.c_str());
+
+        if (saturation > 0 && saturation <= 1) {
             break;
         }
-        std::cout << "Invalid saturation (<0,1>)" << std::endl;
+        std::cout << "Invalid saturation ((0,1>)" << std::endl;
     }
 
     while (true) {
