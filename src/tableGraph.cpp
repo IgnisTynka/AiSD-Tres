@@ -46,13 +46,15 @@ void TableGraph::print() {
 }
 
 bool TableGraph::findEdge(int from, int to) {
-    for (const std::pair<int, int> &edge : _table) {
-        if (edge.first == from && edge.second == to) {
-            return true;
+    if (from < _nodes && to < _nodes) {
+        for (const std::pair<int, int> &edge : _table) {
+            if (edge.first == from && edge.second == to) {
+                return true;
+            }
         }
     }
+
     return false;
-    
 }
 
 std::vector<int> TableGraph::bfs() {
@@ -84,10 +86,48 @@ std::vector<int> TableGraph::dfs() {
 }
 
 std::vector<int> TableGraph::kahn() {
-    
+    std::vector<int> kahn;
+    std::queue<int> queue;
+    std::vector<int> inDegree(_nodes, 0);
+
+    for (const std::pair<int, int> &edge : _table) {
+        inDegree[edge.second]++;
+    }
+
+    for (int i = 0; i < _nodes; i++) {
+        if (inDegree[i] == 0) {
+            queue.push(i);
+        }
+    }
+
+    while (!queue.empty()) {
+        int curr = queue.front();
+        queue.pop();
+        kahn.push_back(curr + 1);
+
+        for (const std::pair<int, int> &edge : _table) {
+            if (edge.first == curr) {
+                inDegree[edge.second]--;
+                if (inDegree[edge.second] == 0) {
+                    queue.push(edge.second);
+                }
+            }
+        }
+    }
+
+    if (kahn.size() != _nodes) {
+        return std::vector<int>();
+    }
+
+    return kahn;
 }
+
 std::vector<int> TableGraph::tarjan() {
-    
+    std::vector<int> tarjan;
+
+    if (tarjan.size() != _nodes) {
+        return std::vector<int>();
+    }   
 }
 
 void TableGraph::_bfs(std::vector<bool> &visited, std::queue<int> &queue, std::vector<int> &bfs, int startNode) {

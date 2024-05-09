@@ -44,11 +44,14 @@ void ListGraph::print() {
 }
 
 bool ListGraph::findEdge(int from, int to) {
-    for (int node : _list[from-1]) {
-        if (node == to-1) {
-            return true;
+    if (from < _nodes && to < _nodes) {
+        for (int node : _list[from-1]) {
+            if (node == to-1) {
+                return true;
+            }
         }
     }
+
     return false;
 }
 
@@ -81,10 +84,48 @@ std::vector<int> ListGraph::dfs() {
 }
 
 std::vector<int> ListGraph::kahn() {
+    std::vector<int> kahn;
+    std::queue<int> queue;
+    std::vector<int> inDegree(_nodes, 0);
 
+    for (int i = 0; i < _nodes; i++) {
+        for (int node : _list[i]) {
+            inDegree[node]++;
+        }
+    }
+
+    for (int i = 0; i < _nodes; i++) {
+        if (inDegree[i] == 0) {
+            queue.push(i);
+        }
+    }
+
+    while (!queue.empty()) {
+        int curr =  queue.front();
+        queue.pop();
+        kahn.push_back(curr + 1);
+
+        for (int node : _list[curr]) {
+            inDegree[node]--;
+            if (inDegree[node] == 0) {
+                queue.push(node);
+            }
+        }
+    }
+
+    if (kahn.size() != _nodes) {
+        return std::vector<int>();
+    }
+
+    return kahn;
 }
-std::vector<int> ListGraph::tarjan() {
 
+std::vector<int> ListGraph::tarjan() {
+    std::vector<int> tarjan;
+
+    if (tarjan.size() != _nodes) {
+        return std::vector<int>();
+    } 
 }
 
 void ListGraph::_bfs(std::vector<bool> &visited, std::queue<int> &queue, std::vector<int> &bfs, int startNode) {
