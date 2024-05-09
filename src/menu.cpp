@@ -89,17 +89,27 @@ void menu(Graph* graph) {
             std::vector<int> kahn = graph->kahn();
             std::vector<int> tarjan = graph->tarjan();
 
+
             std::cout << "Kahn algorithm: ";
-            for (int i = 0; i < kahn.size(); i++) {
-                std::cout << kahn[i] << " ";
+            if (kahn.size() == 0) {
+                std::cout << "Graph has a cycle" << std::endl;
             }
-            std::cout << std::endl;
+            else {
+                for (int i = 0; i < kahn.size(); i++) {
+                    std::cout << kahn[i] << " ";
+                }
+                std::cout << std::endl;
+            }
 
             std::cout << "Tarjan algorithm: ";
-            for (int i = 0; i < tarjan.size(); i++) {
-                std::cout << tarjan[i] << " ";
+            if (tarjan.size() == 0) {
+                std::cout << "Graph has a cycle" << std::endl;
+            } else {
+                for (int i = 0; i < tarjan.size(); i++) {
+                    std::cout << tarjan[i] << " ";
+                }
+                std::cout << std::endl;
             }
-            std::cout << std::endl;
         }
 
         else if (option == "exit") {

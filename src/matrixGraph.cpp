@@ -47,7 +47,7 @@ bool MatrixGraph::findEdge(int from, int to) {
     if (from > _nodes || to > _nodes) {
         return false;
     }
-    
+
     return _matrix[(from-1) * _nodes + (to-1)];
 }
 
@@ -91,11 +91,43 @@ std::vector<int> MatrixGraph::kahn() {
             }
         }
     }
-    
+
+    for (int i = 0; i < _nodes; i++) {
+        if (inDegree[i] == 0) {
+            queue.push(i);
+        }
+    }
+
+    while (!queue.empty()) {
+        int curr = queue.front();
+        queue.pop();
+        kahn.push_back(curr + 1);
+
+        for (int i = 0; i < _nodes; i++) {
+            if (_matrix[curr * _nodes + i]) {
+                inDegree[i]--;
+                if (inDegree[i] == 0) {
+                    queue.push(i);
+                }
+            }
+        }
+    }
+
+    if (kahn.size() != _nodes) {
+        return std::vector<int>();
+    }
+
+    return kahn;    
 }
 
 std::vector<int> MatrixGraph::tarjan() {
-    
+    std::vector<int> tarjan;
+
+    if (tarjan.size() != _nodes) {
+        return std::vector<int>();
+    } 
+
+    return tarjan;
 }
 
 void MatrixGraph::_bfs(std::vector<bool>& visited, std::queue<int>& queue, std::vector<int>& bfs, int startNode) {
