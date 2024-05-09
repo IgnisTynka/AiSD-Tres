@@ -15,7 +15,7 @@ TableGraph::TableGraph(int nodes, float saturation) {
         if (saturation == 0.f) {
             continue;
         }
-        for (int k = j; k < edge; k++) {
+        for (int k = j; k < _nodes-1; k++) {
             float p = (float)rand() / RAND_MAX;
             if (p <= saturation) {
                 temp.first = i;

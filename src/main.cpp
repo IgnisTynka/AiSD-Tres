@@ -1,8 +1,11 @@
 #include <iostream>
+#include <ctime>
 
 #include "functions.h"
 
 int main(int argc, const char* argv[]){
+
+    // srand(time(NULL));
 
     std::string mode = std::string(argv[1]);
     Graph* graph;
