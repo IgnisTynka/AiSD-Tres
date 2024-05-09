@@ -16,7 +16,7 @@ MatrixGraph::MatrixGraph(int nodes, float saturation) {
             continue;
         }
         for (int k = j; k < edge; k++) {
-            int p = (float)rand() / RAND_MAX;
+            float p = (float)rand() / RAND_MAX;
             if (p <= saturation) {
                 _matrix[i * _nodes + k] = true;
             }
@@ -122,11 +122,39 @@ std::vector<int> MatrixGraph::kahn() {
 
 std::vector<int> MatrixGraph::tarjan() {
     std::vector<int> tarjan;
+    std::queue<int> queue;
+    std::vector<int> inDegree(_nodes, 0);
+    std::vector<bool> permanent (_nodes, false);
+    std::vector<bool> temporary (_nodes, false);
+
+    for (int i = 0; i < _nodes; i++) {
+        for (int j = 0; j < _nodes; j++) {
+            if (_matrix[j * _nodes + i]) {
+                inDegree[i]++;
+            }
+        }
+    }
+
+    for (int i = 0; i < _nodes; i++) {
+        if (inDegree[i] == 0) {
+            queue.push(i);
+        }
+    }
+
+    while(!queue.empty()) {
+        int curr = queue.front();
+        queue.pop();
+
+        if (!permanent[curr]) {
+            _visit(tarjan, permanent, temporary, curr);
+        }
+    }
 
     if (tarjan.size() != _nodes) {
         return std::vector<int>();
     } 
 
+    std::reverse(tarjan.begin(), tarjan.end());
     return tarjan;
 }
 
@@ -146,7 +174,6 @@ void MatrixGraph::_bfs(std::vector<bool>& visited, std::queue<int>& queue, std::
             }
         }
     }
-    
 }
 
 void MatrixGraph::_dfs(std::vector<bool>& visited, std::stack<int>& stack, std::vector<int>& dfs, int startNode) {
@@ -165,4 +192,21 @@ void MatrixGraph::_dfs(std::vector<bool>& visited, std::stack<int>& stack, std::
             }
         }
     }
+}
+
+void MatrixGraph::_visit(std::vector<int> &tarjan, std::vector<bool> &permanent, std::vector<bool> &temporary, int startNode) {
+    if (temporary[startNode]) {
+        return;
+    }
+
+    temporary[startNode] = false;
+
+    for (int i = 0; i < _nodes; i++) {
+        if (_matrix[startNode * _nodes + i] && !permanent[i]) {
+            _visit(tarjan, permanent, temporary, i);
+        }
+    }
+
+    permanent[startNode] = true;
+    tarjan.push_back(startNode + 1);
 }

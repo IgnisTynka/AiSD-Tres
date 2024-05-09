@@ -15,8 +15,8 @@ TableGraph::TableGraph(int nodes, float saturation) {
         if (saturation == 0.f) {
             continue;
         }
-        for (int k = j; k < edge; k++) {
-            int p = (float)rand() / RAND_MAX;
+        for (int k = j; k < _nodes-1; k++) {
+            float p = (float)rand() / RAND_MAX;
             if (p <= saturation) {
                 temp.first = i;
                 temp.second = k;
@@ -24,7 +24,6 @@ TableGraph::TableGraph(int nodes, float saturation) {
             }
         }
     }
-
 }
 
 TableGraph::TableGraph(int nodes, std::vector<std::set<int>> list) {
@@ -124,10 +123,36 @@ std::vector<int> TableGraph::kahn() {
 
 std::vector<int> TableGraph::tarjan() {
     std::vector<int> tarjan;
+    std::queue<int> queue;
+    std::vector<int> inDegree(_nodes, 0);
+    std::vector<bool> permanent (_nodes, false);
+    std::vector<bool> temporary (_nodes, false);
+
+    for (const std::pair<int, int> &edge : _table) {
+        inDegree[edge.second]++;
+    }
+
+    for (int i = 0; i < _nodes; i++) {
+        if (inDegree[i] == 0) {
+            queue.push(i);
+        }
+    }
+
+    while(!queue.empty()) {
+        int curr = queue.front();
+        queue.pop();
+
+        if (!permanent[curr]) {
+            _visit(tarjan, permanent, temporary, curr);
+        }
+    }
 
     if (tarjan.size() != _nodes) {
         return std::vector<int>();
-    }   
+    } 
+
+    std::reverse(tarjan.begin(), tarjan.end());
+    return tarjan;   
 }
 
 void TableGraph::_bfs(std::vector<bool> &visited, std::queue<int> &queue, std::vector<int> &bfs, int startNode) {
@@ -165,4 +190,21 @@ void TableGraph::_dfs(std::vector<bool> &visited, std::stack<int> &stack, std::v
             }            
         }
     }
+}
+
+void TableGraph::_visit(std::vector<int> &tarjan, std::vector<bool> &permanent, std::vector<bool> &temporary, int startNode) {
+    if (temporary[startNode]) {
+        return;
+    }
+
+    temporary[startNode] = true;
+
+    for (const std::pair<int, int> &edge : _table) {
+        if (edge.first == startNode) {
+            _visit(tarjan, permanent, temporary, edge.second);
+        }
+    }
+
+    permanent[startNode] = true;
+    tarjan.push_back(startNode + 1);
 }

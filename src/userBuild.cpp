@@ -2,7 +2,6 @@
 #include <set>
 #include <vector>
 #include <sstream>
-#include <cstdlib> 
 
 #include "functions.h"
 #include "tableGraph.h"

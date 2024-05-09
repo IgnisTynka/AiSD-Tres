@@ -14,13 +14,12 @@ ListGraph::ListGraph(int nodes, float saturation) {
             continue;
         }
         for (int k = j; k < edge; k++) {
-            int p = (float)rand() / RAND_MAX;
+            float p = (float)rand() / RAND_MAX;
             if (p <= saturation) {
                 _list[i].insert(k);
             }
         }
     }
-
 }
 
 ListGraph::ListGraph(int node, std::vector<std::set<int>> list) {
@@ -122,10 +121,38 @@ std::vector<int> ListGraph::kahn() {
 
 std::vector<int> ListGraph::tarjan() {
     std::vector<int> tarjan;
+    std::queue<int> queue;
+    std::vector<int> inDegree(_nodes, 0);
+    std::vector<bool> permanent (_nodes, false);
+    std::vector<bool> temporary (_nodes, false);
+
+    for (int i = 0; i < _nodes; i++) {
+        for (int node : _list[i]) {
+            inDegree[node]++;
+        }
+    }
+
+    for (int i = 0; i < _nodes; i++) {
+        if (inDegree[i] == 0) {
+            queue.push(i);
+        }
+    }
+
+    while(!queue.empty()) {
+        int curr = queue.front();
+        queue.pop();
+
+        if (!permanent[curr]) {
+            _visit(tarjan, permanent, temporary, curr);
+        }
+    }
 
     if (tarjan.size() != _nodes) {
         return std::vector<int>();
     } 
+
+    std::reverse(tarjan.begin(), tarjan.end());
+    return tarjan;
 }
 
 void ListGraph::_bfs(std::vector<bool> &visited, std::queue<int> &queue, std::vector<int> &bfs, int startNode) {
@@ -162,4 +189,21 @@ void ListGraph::_dfs(std::vector<bool> &visited, std::stack<int> &stack, std::ve
             }
         }
     }
+}
+
+void ListGraph::_visit(std::vector<int> &tarjan, std::vector<bool> &permanent, std::vector<bool> &temporary, int startNode) {
+    if (temporary[startNode]) {
+        return;
+    }
+
+    temporary[startNode] = true;
+
+    for (int node : _list[startNode]) {
+        if (!permanent[node]) {
+            _visit(tarjan, permanent, temporary, node);
+        }
+    }
+
+    permanent[startNode] = true;
+    tarjan.push_back(startNode + 1);
 }

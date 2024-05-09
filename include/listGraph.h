@@ -27,5 +27,6 @@ protected:
 
 private:
     void _bfs(std::vector<bool> &visited, std::queue<int> &queue, std::vector<int> &bfs, int startNode);
-    void _dfs(std::vector<bool> &visited, std::stack<int> &stack, std::vector<int> &dfs, int startNode);  
+    void _dfs(std::vector<bool> &visited, std::stack<int> &stack, std::vector<int> &dfs, int startNode);
+    void _visit(std::vector<int> &tarjan, std::vector<bool> &permanent, std::vector<bool> &temporary, int startNode);
 };
