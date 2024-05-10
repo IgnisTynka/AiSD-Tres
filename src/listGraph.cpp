@@ -1,23 +1,41 @@
 #include <iostream>
+#include <random>
+#include <chrono>
 
 #include "listGraph.h"
 
 ListGraph::ListGraph(int nodes, float saturation) {
     _nodes = nodes;
+    std::vector<std::set<int>> list(_nodes);
     _list.resize(_nodes);
 
     for (int i = 0; i < _nodes-1; i++) {
         int j = i + 1;
         int edge = rand() % (_nodes - j) + j;
-        _list[i].insert(edge);
+        list[i].insert(edge);
         if (saturation == 0.f) {
             continue;
         }
         for (int k = j; k < edge; k++) {
             float p = (float)rand() / RAND_MAX;
             if (p <= saturation) {
-                _list[i].insert(k);
+                list[i].insert(k);
             }
+        }
+    }
+
+    std::vector<int> newOrder(_nodes);
+    for (int i = 0; i < _nodes; i++){
+        newOrder[i] = i;
+    }
+
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine rng(seed);
+    std::shuffle(std::begin(newOrder), std::end(newOrder), rng);
+
+    for (int i = 0; i < _nodes; i++) {
+        for (int j : list[i]) {
+            _list[newOrder[i]].insert(newOrder[j]);
         }
     }
 }
@@ -34,7 +52,7 @@ ListGraph::ListGraph(int node, std::vector<std::set<int>> list) {
 
 void ListGraph::print() {
     for (int i = 0; i < _nodes; i++) {
-        std::cout << i+1 << " -> ";
+        std::cout << i + 1 << " -> ";
         for (int node : _list[i]) {
             std::cout << node + 1 << " ";
         }
