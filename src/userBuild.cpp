@@ -18,8 +18,8 @@ Graph* userBuild() {
         std::string nodesStr;
         std::getline(std::cin, nodesStr);
         
+        std::cout << nodesStr << std::endl;
         nodes = std::atoi(nodesStr.c_str());
-        std::cout << nodes << std::endl;
         
         if (nodes > 0)  {
             break;

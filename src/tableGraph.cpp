@@ -1,17 +1,20 @@
 #include <iostream>
 #include <ctime>
+#include <random>
+#include <chrono>
 
 #include "tableGraph.h"
 
 TableGraph::TableGraph(int nodes, float saturation) {
     _nodes = nodes;
+    std::set<std::pair<int, int>> table;
     std::pair<int, int> temp;
     for (int i = 0; i < _nodes-1; i++) {
         int j = i + 1;
         int edge = rand() % (_nodes - j) + j;
         temp.first = i;
         temp.second = edge;
-        _table.insert(temp);
+        table.insert(temp);
         if (saturation == 0.f) {
             continue;
         }
@@ -20,9 +23,22 @@ TableGraph::TableGraph(int nodes, float saturation) {
             if (p <= saturation) {
                 temp.first = i;
                 temp.second = k;
-                _table.insert(temp);
+                table.insert(temp);
             }
         }
+    }
+
+    std::vector<int> newOrder(_nodes);
+    for (int i = 0; i < _nodes; i++){
+        newOrder[i] = i;
+    }
+
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine rng(seed);
+    std::shuffle(std::begin(newOrder), std::end(newOrder), rng);
+
+    for (const std::pair<int, int> &edge : table) {
+        _table.insert(std::pair<int, int> (newOrder[edge.first], newOrder[edge.second]));
     }
 }
 

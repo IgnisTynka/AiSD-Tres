@@ -1,27 +1,45 @@
 #include <iostream>
 #include <random>
 #include <cstdlib>
+#include <chrono>
 
 #include "matrixGraph.h"
 
 MatrixGraph::MatrixGraph(int nodes, float saturation) {
     _nodes = nodes;
-    _matrix = std::vector<bool>(_nodes * _nodes, false);
+    std::vector<bool> matrix(_nodes * _nodes, false);
+    _matrix = std::vector<bool>(_nodes * _nodes);
 
     for (int i = 0; i < _nodes-1; i++) {
         int j = i + 1;
         int edge = rand() % (_nodes - j) + j;
-        _matrix[i * _nodes + edge] = true;
+        matrix[i * _nodes + edge] = true;
         if (saturation == 0.f) {
             continue;
         }
         for (int k = j; k < edge; k++) {
             float p = (float)rand() / RAND_MAX;
             if (p <= saturation) {
-                _matrix[i * _nodes + k] = true;
+                matrix[i * _nodes + k] = true;
             }
         }
     }
+
+    std::vector<int> newOrder(_nodes);
+    for (int i = 0; i < _nodes; i++){
+        newOrder[i] = i;
+    }
+
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine rng(seed);
+    std::shuffle(std::begin(newOrder), std::end(newOrder), rng);
+
+    for (int i = 0; i < _nodes; i++) {
+        for (int j = 0; j < _nodes; j++) {
+            _matrix[i * _nodes + j] = matrix[newOrder[i]*_nodes + newOrder[j]];
+        }
+    }
+
 }
 
 MatrixGraph::MatrixGraph(int nodes, std::vector<std::set<int>> list) {
