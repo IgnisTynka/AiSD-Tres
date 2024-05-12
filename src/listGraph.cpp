@@ -61,9 +61,9 @@ void ListGraph::print() {
 }
 
 bool ListGraph::findEdge(int from, int to) {
-    if (from < _nodes && to < _nodes) {
-        for (int node : _list[from-1]) {
-            if (node == to-1) {
+    if (--from < _nodes && --to < _nodes) {
+        for (int node : _list[from]) {
+            if (node == to) {
                 return true;
             }
         }
