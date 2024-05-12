@@ -61,7 +61,7 @@ void TableGraph::print() {
 }
 
 bool TableGraph::findEdge(int from, int to) {
-    if (from < _nodes && to < _nodes) {
+    if (--from < _nodes && --to < _nodes) {
         for (const std::pair<int, int> &edge : _table) {
             if (edge.first == from && edge.second == to) {
                 return true;

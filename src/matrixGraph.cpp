@@ -62,7 +62,7 @@ void MatrixGraph::print() {
 }
 
 bool MatrixGraph::findEdge(int from, int to) {
-    if (from > _nodes || to > _nodes) {
+    if (--from > _nodes || --to > _nodes) {
         return false;
     }
 
