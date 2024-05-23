@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <ctime>
 
 #include "functions.h"
 #include "graph.h"
@@ -32,11 +33,8 @@ void menu(Graph* graph) {
 
             while (true) {
                 std::cout << "from> ";
-                std::string nodesStr;
-                std::getline(std::cin, nodesStr);
-                std::cout << nodesStr << std::endl;
-
-                from = std::atoi(nodesStr.c_str());
+                std::cin >> from;
+                std::cout << from << std::endl;
 
                 if (from > 0) {
                     break;
@@ -47,11 +45,8 @@ void menu(Graph* graph) {
 
             while (true) {
                 std::cout << "to> ";
-                std::string nodesStr;
-                std::getline(std::cin, nodesStr);
-                std::cout << nodesStr << std::endl;
-
-                to = std::atoi(nodesStr.c_str()); 
+                std::cin >> to; 
+                std::cout << to << std::endl;
 
                 if (to > 0) {
                     break;
@@ -59,7 +54,6 @@ void menu(Graph* graph) {
                 
                 std::cout << "Invalid node number (>0)" << std::endl;
             }
-            
             if (graph->findEdge(from, to)) {
                 std::cout << "Edge ("<<from <<", "<< to <<") exists" << std::endl;
             } else {
@@ -85,10 +79,8 @@ void menu(Graph* graph) {
             std::cout << std::endl;            
         }
 
-        else if (option == "sort") {
+        else if (option == "kahn_sort") {
             std::vector<int> kahn = graph->kahn();
-            std::vector<int> tarjan = graph->tarjan();
-
 
             std::cout << "Kahn algorithm: ";
             if (kahn.size() == 0) {
@@ -100,6 +92,10 @@ void menu(Graph* graph) {
                 }
                 std::cout << std::endl;
             }
+        }
+        
+        else if (option == "tarjan_sort") {
+            std::vector<int> tarjan = graph->tarjan();
 
             std::cout << "Tarjan algorithm: ";
             if (tarjan.size() == 0) {
